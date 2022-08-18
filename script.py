@@ -4,31 +4,41 @@ import requests
 import sys
 import os
 
-# ticker = sys.argv[1]
+COLUMNS = ["Ticker", "Name", "Price", "P/E"]
 
-url = "https://www.marketwatch.com/investing/stock/msft?mod=search_symbol"
+def getStockInfo(url):
+    res = requests.get(url).text
+    doc = BeautifulSoup(res, "html.parser")
 
-res = requests.get(url).text
-doc = BeautifulSoup(res, "html.parser")
+    container = doc.find(class_="list list--kv list--col50")
 
-container = doc.find(class_="list list--kv list--col50")
+    ticker = doc.find(class_="company__ticker").text
+    name = doc.find(class_="company__name").text
+    price = doc.findChild(class_="intraday__price").text.replace("kr", "").strip()
+    items = container.findChildren(class_="kv__item")
+    pe = items[8].find(class_="primary").text
+    
+    return ticker, name, price, pe
 
-name = doc.find(class_="company__name").text
-items = container.findChildren(class_="kv__item")
-price = items[0].find(class_="primary").text
-pe = items[8].find(class_="primary").text
+def main():
+    input_ticker = sys.argv[1]
+    url = "https://www.marketwatch.com/investing/stock/" + input_ticker
+    info = getStockInfo(url=url)
 
-# print(name)
-# print(price)
-# print(pe)
+    data = None
+    stockInfo = [info]
+    stockName = info[1]
 
-if os.path.getsize("stocks.csv") == 0:
-    data = [[name, price, pe]]
-    df = pd.DataFrame(data, columns=["Name", "Price", "P/E"])
-else:
-    dict = {"Name": name, "Price": price, "P/E": pe}
-    df = df.append(dict, ignore_index=True)
+    if os.path.getsize("stocks.csv") == 0:
+        data = pd.DataFrame(data=stockInfo, columns= COLUMNS)
+    else:
+        data = pd.read_csv("stocks.csv")
+        if stockName not in data["Name"].values:
+            data.loc[len(data)] = stockInfo[0]
+        else:
+            print("Stock already in list")
+    data.to_csv("stocks.csv",index=False)
+    print(data)
 
-df.to_csv("stocks.csv",index=False,header=False)
-
-print(df)
+if __name__ == "__main__":
+    main()
