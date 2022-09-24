@@ -82,7 +82,7 @@ class Scraper:
 
 
 
-x = Scraper("shb.a")
-price = x.getPrice()
+# x = Scraper("shb.a")
+# price = x.getPrice()
 
-x.getCashFlow()
+# print(price)
