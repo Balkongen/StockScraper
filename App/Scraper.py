@@ -1,4 +1,3 @@
-from multiprocessing.sharedctypes import Value
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
@@ -17,11 +16,6 @@ class Scraper:
         name = doc.find(class_="company__name")
         if name == None:
             raise ValueError("Ticker does not exist")
-        # try:
-        #     name = doc.find(class_="company__name")
-        # except:
-        #     raise ValueError()
-        #     print("Wrong ticker symbol")
 
     def __scrape(self, url_x):
         if url_x == None:
@@ -40,14 +34,14 @@ class Scraper:
         doc = self.__scrape(None)
         price = doc.findChild(class_="intraday__price").text
         price = self.__format_string(price=price)
+        
         return float(price)
-        # return float(doc.findChild(class_="intraday__price").text.replace("kr", "").strip())
 
     def __format_string(self, price):
         symbols = ["kr", "$", "€"]
-        
         price = str(price)
         price = price.strip()
+        
         for x in symbols:
             price = price.replace(x, "")
 
@@ -58,6 +52,7 @@ class Scraper:
         doc = self.__scrape(None)
         container = doc.find(class_="list list--kv list--col50")
         items = container.findChildren(class_="kv__item")
+        
         return float(items[8].find(class_="primary").text)
 
     def getCashFlow(self):
