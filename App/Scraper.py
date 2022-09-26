@@ -1,3 +1,4 @@
+from multiprocessing.sharedctypes import Value
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
@@ -12,10 +13,15 @@ class Scraper:
 
     def __checkUrl(self):
         doc = self.__scrape(None)
-        try:
-            name = doc.find(class_="company__name").text
-        except:
-            print("Could not find information, try another ticker")
+        
+        name = doc.find(class_="company__name")
+        if name == None:
+            raise ValueError("Ticker does not exist")
+        # try:
+        #     name = doc.find(class_="company__name")
+        # except:
+        #     raise ValueError()
+        #     print("Wrong ticker symbol")
 
     def __scrape(self, url_x):
         if url_x == None:
@@ -32,7 +38,21 @@ class Scraper:
 
     def getPrice(self):
         doc = self.__scrape(None)
-        return float(doc.findChild(class_="intraday__price").text.replace("kr", "").strip())
+        price = doc.findChild(class_="intraday__price").text
+        price = self.__format_string(price=price)
+        return float(price)
+        # return float(doc.findChild(class_="intraday__price").text.replace("kr", "").strip())
+
+    def __format_string(self, price):
+        symbols = ["kr", "$", "€"]
+        
+        price = str(price)
+        price = price.strip()
+        for x in symbols:
+            price = price.replace(x, "")
+
+        return price
+
 
     def getPriceEaringsRatio(self):
         doc = self.__scrape(None)
@@ -77,12 +97,3 @@ class Scraper:
         
         return pd.DataFrame(data=data, columns=columns)
        
-
-        
-
-
-
-# x = Scraper("shb.a")
-# price = x.getPrice()
-
-# print(price)
