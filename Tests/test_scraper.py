@@ -33,6 +33,7 @@ class Test_Scraper(unittest.TestCase):
     def test_get_cashFlow_swedish(self, ticker):
         scraper = Scraper(ticker=ticker)
         cash_flow = scraper.getCashFlow()
+        
         self.assertEqual(type(cash_flow), float)
 
     def test_get_cashFlow(self):
@@ -47,6 +48,12 @@ class Test_Scraper(unittest.TestCase):
         stock_pd = self.SCRAPER_SWE.to_pandas()
         df = pd.DataFrame()
         self.assertEqual(type(stock_pd), type(df))
+
+    def test_to_string_format(self):
+        self.assertEqual(self.SCRAPER_SWE.to_string(),
+        "Name: " + str(self.SCRAPER_SWE.getName()) + " \n" +
+        "Price: " + str(self.SCRAPER_SWE.getPrice()) + " \n" +
+        "P/E: " + str(self.SCRAPER_SWE.getPriceEaringsRatio()))
 
 if __name__ == "__main__":
     unittest.main()
