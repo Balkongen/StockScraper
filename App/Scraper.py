@@ -91,4 +91,4 @@ class Scraper:
             self.getCashFlow()]]
         
         return pd.DataFrame(data=data, columns=columns)
-       
+        
