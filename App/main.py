@@ -1,12 +1,8 @@
 import sys
-
 from Scraper import Scraper
 
 input_ticker = sys.argv[1]
 
 scraper = Scraper(input_ticker)
 
-print(scraper.getName())
-print(scraper.getPrice())
-print(scraper.getPriceEaringsRatio())
-print(scraper.getCashFlow())
+print(scraper.to_string())

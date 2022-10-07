@@ -91,4 +91,8 @@ class Scraper:
             self.getCashFlow()]]
         
         return pd.DataFrame(data=data, columns=columns)
-        
+
+    def to_string(self):
+        return "Name: {} \nPrice: {} \nP/E: {}".format(self.getName(), 
+        self.getPrice(), 
+        self.getPriceEaringsRatio())
