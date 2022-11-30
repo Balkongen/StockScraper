@@ -1,5 +1,5 @@
 # StockScraper
-A python script that scrape the website Marketwatch for stock related information. Beautifulsoup is used to scraper the website.
+A python script that scrape the website Marketwatch for stock related information. Beautifulsoup is used to scrape the website.
 
 ## Motivation
 I have always been interested in stocks so it felt natural to combine that interest with my education in computer science. Another reason for this project is that it did not exist a good module for getting stock information on Nasdaq Stockholm.
