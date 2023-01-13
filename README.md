@@ -1,10 +1,10 @@
 # StockScraper
-A python script that scrape the website Marketwatch for stock related information. Beautifulsoup is used to scrape the website.
+A python script that scrape the website [Marketwatch](https://www.marketwatch.com/) for stock related information. Beautifulsoup is used to scrape the website.
 
 ## Requirements
-python
-beautifulsoup4 
-pandas
+- python
+- beautifulsoup4 
+- pandas
 
 ## Installation
 - Clone this repository
@@ -16,7 +16,7 @@ Example in command-> "python main.py msft"
 The output will be name, price, rice/earnings.
 note that all tickers does not work yet. 
 
-# Tips
+### Tips
 Feel free to modify "main.py" to use the methods however you wish.
 
 ## Tips for further development
