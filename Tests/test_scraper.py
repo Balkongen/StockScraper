@@ -19,8 +19,6 @@ class Test_Scraper(unittest.TestCase):
     def test_get_name(self):
         self.assertEqual(self.SCRAPER_US.getName(), "Microsoft Corp.")
 
-    # TODO
-    # change these tests (price)
     def test_get_price_american(self):
         scraper = Scraper("msft")
         scraper.getPrice()
